@@ -1,0 +1,67 @@
+my:
+  config:
+    exclude-uri: [ /login,/getLastVersion,/apk/**,/admin/**,/getValidateCode,/getAllUniversity,/getAllCategory,/uploadImage,/img/**,/getArticleByTime,/getArticleNum,/getArticleById ]
+    include-uri: [ /** ]
+  image:
+    host: 127.0.0.1
+#  host: 42.193.177.76
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/*.xml
+
+pagehelper:
+  helperDialect: mysql
+  params: count=countSql
+  reasonable: true
+  supportMethodsArguments: true
+
+
+
+server:
+  port: 8889
+spring:
+  datasource:
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat,wall
+    initialSize: 5
+    maxActive: 20
+    maxPoolPreparedStatementPerConnectionSize: 20
+    maxWait: 60000
+    minEvictableIdleTimeMillis: 300000
+    minIdle: 5
+    password: 123456
+    poolPreparedStatements: true
+    testOnBorrow: false
+    testOnReturn: false
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://127.0.0.1:3306/forumdb?useUnDruidDataSourceicode=true&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&useSSL=false
+    useGlobalDataSourceStat: true
+    username: root
+    validationQuery: SELECT 1 FROM DUAL
+  mvc:
+    throw-exception-if-no-handler-found: true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 1000
+  resources:
+    add-mappings: false
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 500MB
+  session:
+    store-type: none
+
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    consumer:
+      group-id: default_consumer_group
+      enable-auto-commit: true
+      auto-commit-interval: 3000
+    listener:
+      missing-topics-fatal: false

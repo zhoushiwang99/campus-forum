@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zsw.campus.forum.mapper.UniversityMapper">
+
+    <resultMap id="BaseResultMap" type="cn.zsw.campus.forum.bean.University">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="universityName" column="university_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,university_name,service_name
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from t_university
+        where  id = #{id,jdbcType=INTEGER} 
+    </select>
+    <select id="selectByUniversityName" resultType="cn.zsw.campus.forum.bean.University">
+        select
+        <include refid="Base_Column_List" />
+        from t_university
+        where  university_name = #{universityName,jdbcType=VARCHAR}
+    </select>
+    <select id="selectALlUniversity" resultType="cn.zsw.campus.forum.bean.University">
+        select
+        <include refid="Base_Column_List" />
+        from t_university
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from t_university
+        where  id = #{id,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.University" useGeneratedKeys="true">
+        insert into t_university
+        ( id,university_name)
+        values (#{id,jdbcType=INTEGER},#{universityName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.University" useGeneratedKeys="true">
+        insert into t_university
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="universityName != null">universityName,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">id = #{id,jdbcType=INTEGER},</if>
+                <if test="universityName != null">university_name = #{universityName,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zsw.campus.forum.bean.University">
+        update t_university
+        <set>
+                <if test="universityName != null">
+                    university_name = #{universityName,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.zsw.campus.forum.bean.University">
+        update t_university
+        set 
+            university_name =  #{universityName,jdbcType=VARCHAR}
+        where   id = #{id,jdbcType=INTEGER} 
+    </update>
+</mapper>

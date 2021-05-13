@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zsw.campus.forum.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="cn.zsw.campus.forum.bean.User">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="account" column="account" jdbcType="VARCHAR"/>
+        <result property="major" column="major" jdbcType="VARCHAR"/>
+        <result property="className" column="class_name" jdbcType="VARCHAR"/>
+        <result property="registerTime" column="register_time" jdbcType="TIMESTAMP"/>
+        <result property="gender" column="gender" jdbcType="VARCHAR"/>
+        <result property="signature" column="signature" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,name,university_id,account,
+        major,class_name,register_time,avatar,signature,gender
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByUniversityIdAndAccount" resultType="cn.zsw.campus.forum.bean.User">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where university_id = #{universityId,jdbcType=INTEGER}
+        and account = #{account,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.User"
+            useGeneratedKeys="true">
+        insert into t_user
+        ( id, name, university_id, account
+        , major, class_name, register_time, gender, signature, avatar)
+        values ( #{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{universityId,jdbcType=INTEGER}
+               , #{account,jdbcType=VARCHAR}
+               , #{major,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}
+               , #{gender,jdbcType=VARCHAR}, #{signature,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.User"
+            useGeneratedKeys="true">
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="account != null">account,</if>
+            <if test="major != null">major,</if>
+            <if test="className != null">className,</if>
+            <if test="registerTime != null">registerTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">id = #{id,jdbcType=INTEGER},</if>
+            <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+            <if test="account != null">account = #{account,jdbcType=VARCHAR},</if>
+            <if test="major != null">major = #{major,jdbcType=VARCHAR},</if>
+            <if test="className != null">class_name = #{className,jdbcType=VARCHAR},</if>
+            <if test="registerTime != null">register_time = #{registerTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zsw.campus.forum.bean.User">
+        update t_user
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                major = #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="className != null">
+                class_name = #{className,jdbcType=VARCHAR},
+            </if>
+            <if test="registerTime != null">
+                register_time = #{registerTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.zsw.campus.forum.bean.User">
+        update t_user
+        set name          = #{name,jdbcType=VARCHAR},
+            account       = #{account,jdbcType=VARCHAR},
+            major         = #{major,jdbcType=VARCHAR},
+            class_name    = #{className,jdbcType=VARCHAR},
+            register_time = #{registerTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateAvatarByUserId">
+        update t_user
+        set avatar = #{avatar,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
