@@ -61,6 +61,8 @@
             <if test="major != null">major,</if>
             <if test="className != null">className,</if>
             <if test="registerTime != null">registerTime,</if>
+            <if test="gender !=  null">gender,</if>
+            <if test="signature !=  null">signature,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">id = #{id,jdbcType=INTEGER},</if>
@@ -69,6 +71,8 @@
             <if test="major != null">major = #{major,jdbcType=VARCHAR},</if>
             <if test="className != null">class_name = #{className,jdbcType=VARCHAR},</if>
             <if test="registerTime != null">register_time = #{registerTime,jdbcType=TIMESTAMP},</if>
+            <if test="gender !=  null">gender = #{gender,jdbcType=VARCHAR},</if>
+            <if test="signature !=  null">signature = #{signature,jdbcType=VARCHAR},</if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="cn.zsw.campus.forum.bean.User">
@@ -89,6 +93,8 @@
             <if test="registerTime != null">
                 register_time = #{registerTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="gender !=  null">gender = #{gender,jdbcType=VARCHAR},</if>
+            <if test="signature !=  null">signature = #{signature,jdbcType=VARCHAR},</if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>

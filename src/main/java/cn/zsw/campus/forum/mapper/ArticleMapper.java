@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface ArticleMapper {
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Article record);
 
@@ -23,6 +23,9 @@ public interface ArticleMapper {
 
     List<Article> selectAllByCategoryId(Integer categoryId);
 
+    List<Article> selectByUserId(Integer userId);
+
+
     int updateByPrimaryKeySelective(Article record);
 
     int updateByPrimaryKey(Article record);
@@ -30,6 +33,8 @@ public interface ArticleMapper {
     int selectCountByCategoryId(Integer categoryId);
 
     int selectTotalCount();
+
+
 }
 
 

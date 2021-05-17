@@ -1,6 +1,6 @@
 my:
   config:
-    exclude-uri: [ /login,/getLastVersion,/apk/**,/admin/**,/getValidateCode,/getAllUniversity,/getAllCategory,/uploadImage,/img/**,/getArticleByTime,/getArticleNum,/getArticleById ]
+    exclude-uri: [ /login,/admin/**,/getValidateCode,/getAllUniversity,/getAllCategory,/uploadImage,/img/**,/getArticleByTime,/getArticleNum,/getArticleById,/getCommentByArticleId,/getUserById,/searchArticle,/getArticleByHot ]
     include-uri: [ /** ]
   image:
     host: 127.0.0.1
@@ -8,6 +8,7 @@ my:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath*:mapper/*.xml
 
 pagehelper:
@@ -65,3 +66,14 @@ spring:
       auto-commit-interval: 3000
     listener:
       missing-topics-fatal: false
+  elasticsearch:
+    rest:
+      uris: ${ES_HOST:localhost}:${ES_PORT:9200} # es rest 接口地址，多个用逗号隔开
+      connection-timeout: 1s
+      read-timeout: 30s
+#  data:
+#    elasticsearch:
+#      cluster-name: nowcoder
+#      cluster-nodes: 127.0.0.1:9300
+
+

@@ -48,7 +48,8 @@ public class ImgController {
         String fileName = AVATAR_PATH + imgName + "." + fileType;
         file.transferTo(new File(fileName));
         userMapper.updateAvatarByUserId(user.getId(), "http://localhost:8889/img/" + imgName + "." + fileType);
-        return ReturnData.success();
+        User userFromDB = userMapper.selectByPrimaryKey(user.getId());
+        return ReturnData.success(userFromDB);
     }
 
     @PostMapping("/uploadImage")

@@ -13,13 +13,14 @@
         <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
         <result property="top" column="top" jdbcType="TINYINT"/>
         <result property="commentCount" column="comment_count" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id
         ,title,content,
         user_id,create_time,category_id,
-        comment_count
+        comment_count,score
     </sql>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -48,8 +49,14 @@
         from t_article
         where  category_id = #{categoryId,jdbcType=INTEGER}
     </select>
+    <select id="selectByUserId" resultType="cn.zsw.campus.forum.bean.Article">
+        select
+        <include refid="Base_Column_List"/>
+        from t_article
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
         from t_article
         where id = #{id,jdbcType=INTEGER}
@@ -59,10 +66,10 @@
         insert into t_article
         ( id, title, content
         , user_id, create_time, category_id
-        , top, comment_count)
+        , top, comment_count,score)
         values ( #{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}
                , #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{categoryId,jdbcType=INTEGER}
-               , #{top,jdbcType=TINYINT}, #{commentCount,jdbcType=INTEGER})
+               , #{top,jdbcType=TINYINT}, #{commentCount,jdbcType=INTEGER},#{score,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.Article"
             useGeneratedKeys="true">
@@ -112,6 +119,9 @@
             <if test="commentCount != null">
                 comment_count = #{commentCount,jdbcType=INTEGER},
             </if>
+            <if test="score != null">
+                score = #{score,jdbcType=INTEGER},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -126,4 +136,5 @@
             comment_count = #{commentCount,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
 </mapper>

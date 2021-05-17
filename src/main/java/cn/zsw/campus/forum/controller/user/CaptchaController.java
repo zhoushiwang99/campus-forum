@@ -37,6 +37,6 @@ public class CaptchaController implements Constant {
         captcha.write(response.getOutputStream());
         String captchaCode = captcha.getCode();
 
-        redisUtil.setString(RedisKeyUtil.getCaptchacodeIpKey(ipAddr),captchaCode,3 * 60, TimeUnit.SECONDS);
+        redisUtil.setString(RedisKeyUtil.getCaptchacodeIpKey(ipAddr),captchaCode,5 * 60, TimeUnit.SECONDS);
     }
 }

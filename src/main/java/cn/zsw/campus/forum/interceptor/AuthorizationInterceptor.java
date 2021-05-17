@@ -37,7 +37,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor, Constant {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String ipAddr = IpUtil.getIpAddr(request);
         String token = request.getHeader("token");
-        if(token == null|| "".equals(token.trim())) {
+        if(token == null|| "".equals(token.trim()) || redisUtil.getString(RedisKeyUtil.getTokenKey(token)) == null) {
             throw new BaseException(CodeEnum.REQUEST_FAILED.getCode(), "尚未登录");
         }
         Integer userId = Integer.valueOf(redisUtil.getString(RedisKeyUtil.getTokenKey(token)));
