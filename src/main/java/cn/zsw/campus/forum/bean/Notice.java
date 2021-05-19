@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 
 /**
  * 
- * @TableName t_forbidden
+ * @TableName t_notice
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Forbidden implements Serializable {
+public class Notice implements Serializable {
     /**
      * 
      */
@@ -25,17 +25,12 @@ public class Forbidden implements Serializable {
     /**
      * 
      */
-    private Integer userId;
+    private String content;
 
     /**
      * 
      */
-    private Integer forbiddenStatus;
-
-    /**
-     * 
-     */
-    private Date forbiddenTime;
+    private Date createTime;
 
     private static final long serialVersionUID = 1L;
 }

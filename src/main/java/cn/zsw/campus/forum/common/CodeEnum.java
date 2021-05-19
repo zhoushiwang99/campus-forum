@@ -22,7 +22,11 @@ public enum CodeEnum {
      * 系统错误
      */
     SYSTEM_ERROR(501),
-    JW_SYSTEM_ERROR(502)
+    JW_SYSTEM_ERROR(502),
+    /**
+     * 被禁言
+     */
+    FORBIDDEN_USER(10086)
     ;
 
     private Integer code;

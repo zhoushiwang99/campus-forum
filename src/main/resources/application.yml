@@ -1,6 +1,6 @@
 my:
   config:
-    exclude-uri: [ /login,/admin/**,/getValidateCode,/getAllUniversity,/getAllCategory,/uploadImage,/img/**,/getArticleByTime,/getArticleNum,/getArticleById,/getCommentByArticleId,/getUserById,/searchArticle,/getArticleByHot ]
+    exclude-uri: [ /login,/admin/**,/getNotice,/getValidateCode,/getAllUniversity,/getAllCategory,/img/**,/getArticleByTime,/getArticleNum,/getArticleById,/getCommentByArticleId,/getUserById,/searchArticle,/getArticleByHot ]
     include-uri: [ /** ]
   image:
     host: 127.0.0.1

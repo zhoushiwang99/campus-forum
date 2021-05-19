@@ -4,12 +4,14 @@ import cn.zsw.campus.forum.bean.Forbidden;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 
 @Repository
 @Mapper
 public interface ForbiddenMapper {
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Forbidden record);
 
@@ -20,6 +22,9 @@ public interface ForbiddenMapper {
     int updateByPrimaryKeySelective(Forbidden record);
 
     int updateByPrimaryKey(Forbidden record);
+
+    int replaceForbidden(Forbidden record);
+
 
 }
 

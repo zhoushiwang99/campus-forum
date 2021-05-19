@@ -10,6 +10,8 @@ import cn.zsw.campus.forum.mapper.UserMapper;
 import cn.zsw.campus.forum.mapper.elasticsearch.ArticleRepository;
 import cn.zsw.campus.forum.service.ArticleService;
 import cn.zsw.campus.forum.service.ElasticsearchService;
+import cn.zsw.campus.forum.service.ForbiddenService;
+import cn.zsw.campus.forum.util.HostHolder;
 import cn.zsw.campus.forum.util.RedisUtil;
 import cn.zsw.campus.forum.vo.ArticleVO;
 import com.github.pagehelper.PageHelper;
@@ -23,10 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zsw
@@ -52,6 +51,12 @@ public class ArticleController {
 
     @Autowired
     ArticleRepository articleRepository;
+
+    @Autowired
+    ForbiddenService forbiddenService;
+
+    @Autowired
+    HostHolder hostHolder;
 
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -107,10 +112,22 @@ public class ArticleController {
 
     @PostMapping("/addArticle")
     public ReturnData addArticle(Integer categoryId, String title, String content) {
+        User user = hostHolder.getUser();
+        forbiddenService.isForbidden(user.getId());
         Article article = Article.builder().categoryId(categoryId).title(title).content(content).build();
         articleService.publishArticle(article);
         return ReturnData.success();
     }
+
+    @PostMapping("/updateArticle")
+    public ReturnData updateArticle(@NotNull Integer articleId, Integer categoryId, String title, String content) {
+        User user = hostHolder.getUser();
+        forbiddenService.isForbidden(user.getId());
+        Article article = Article.builder().id(articleId).categoryId(categoryId).title(title).content(content).build();
+        articleMapper.updateByPrimaryKeySelective(article);
+        return ReturnData.success();
+    }
+
 
     @GetMapping("/getArticleNum")
     public ReturnData getArticleNumByCategoryId(Integer categoryId) {

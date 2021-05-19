@@ -53,6 +53,10 @@
             <if test="forbiddenTime != null">forbidden_time = #{forbiddenTime,jdbcType=TIMESTAMP},</if>
         </trim>
     </insert>
+    <insert id="replaceForbidden" parameterType="cn.zsw.campus.forum.bean.Forbidden">
+        replace into  t_forbidden(user_id,forbidden_status,forbidden_time)
+        values (#{userId},#{forbiddenStatus},#{forbiddenTime})
+    </insert>
     <update id="updateByPrimaryKeySelective" parameterType="cn.zsw.campus.forum.bean.Forbidden">
         update t_forbidden
         <set>
