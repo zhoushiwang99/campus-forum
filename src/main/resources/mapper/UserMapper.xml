@@ -35,6 +35,19 @@
         where university_id = #{universityId,jdbcType=INTEGER}
         and account = #{account,jdbcType=VARCHAR}
     </select>
+    <select id="selectTotalCount" resultType="java.lang.Integer">
+        select count(1) from t_user;
+    </select>
+    <select id="selectAllUser" resultType="cn.zsw.campus.forum.bean.User">
+        select <include refid="Base_Column_List"/>
+        from t_user
+    </select>
+    <select id="selectUserByKeyword" resultType="cn.zsw.campus.forum.bean.User">
+        <bind name="pattern" value="'%' + keyword + '%'"/>
+        select <include refid="Base_Column_List"/>
+        from t_user
+        where name like #{pattern}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete

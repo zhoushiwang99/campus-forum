@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zsw.campus.forum.mapper.ForbiddenMapper">
+
+    <resultMap id="BaseResultMap" type="cn.zsw.campus.forum.bean.Forbidden">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="forbiddenStatus" column="forbidden_status" jdbcType="INTEGER"/>
+        <result property="forbiddenTime" column="forbidden_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,user_id,forbidden_status,
+        forbidden_time
+    </sql>
+
+    <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_forbidden
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from t_forbidden
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.Forbidden"
+            useGeneratedKeys="true">
+        insert into t_forbidden
+        ( id, user_id, forbidden_status
+        , forbidden_time)
+        values ( #{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{forbiddenStatus,jdbcType=INTEGER}
+               , #{forbiddenTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.Forbidden"
+            useGeneratedKeys="true">
+        insert into t_forbidden
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">userId,</if>
+            <if test="forbiddenStatus != null">forbiddenStatus,</if>
+            <if test="forbiddenTime != null">forbiddenTime,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">id = #{id,jdbcType=INTEGER},</if>
+            <if test="userId != null">user_id = #{userId,jdbcType=INTEGER},</if>
+            <if test="forbiddenStatus != null">forbidden_status = #{forbiddenStatus,jdbcType=INTEGER},</if>
+            <if test="forbiddenTime != null">forbidden_time = #{forbiddenTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zsw.campus.forum.bean.Forbidden">
+        update t_forbidden
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="forbiddenStatus != null">
+                forbidden_status = #{forbiddenStatus,jdbcType=INTEGER},
+            </if>
+            <if test="forbiddenTime != null">
+                forbidden_time = #{forbiddenTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.zsw.campus.forum.bean.Forbidden">
+        update t_forbidden
+        set user_id          = #{userId,jdbcType=INTEGER},
+            forbidden_status = #{forbiddenStatus,jdbcType=INTEGER},
+            forbidden_time   = #{forbiddenTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

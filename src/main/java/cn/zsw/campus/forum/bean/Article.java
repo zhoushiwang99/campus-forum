@@ -61,8 +61,8 @@ public class Article implements Serializable {
     /**
      *
      */
-    @Field(type = FieldType.Boolean)
-    private Boolean top;
+    @Field(type = FieldType.Integer)
+    private Integer priority;
 
     /**
      *

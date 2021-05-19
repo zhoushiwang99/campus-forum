@@ -51,9 +51,11 @@ public class ElasticsearchTests {
 //        articleRepository.save(articleMapper.selectByPrimaryKey(1));
 //        articleRepository.save(articleMapper.selectByPrimaryKey(2));
 //        articleRepository.save(articleMapper.selectByPrimaryKey(19));
-        for (int i = 20; i <= 20; i++) {
-            articleRepository.save(articleMapper.selectByPrimaryKey(i));
-        }
+//        for (int i = 20; i <= 20; i++) {
+//            articleRepository.save(articleMapper.selectByPrimaryKey(i));
+//        }
+        articleRepository.saveAll(articleMapper.selectAllArticle());
+
     }
 
     @Test
@@ -72,8 +74,8 @@ public class ElasticsearchTests {
 
     @Test
     public void testDelete() {
-        articleRepository.deleteById(7);
-//        articleRepository.deleteAll();
+//        articleRepository.deleteById(7);
+        articleRepository.deleteAll();
     }
 
     @Test

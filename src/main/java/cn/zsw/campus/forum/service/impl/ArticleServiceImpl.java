@@ -34,11 +34,12 @@ public class ArticleServiceImpl implements ArticleService {
     public boolean publishArticle(Article article) {
         Date now = new Date();
         //计算初始分数
-        int score = TIME_BEGIN / (int)(now.getTime()/1000);
+//        int score = (int) (now.getTime() / 1000) / TIME_BEGIN;
+        int score = ((int) (now.getTime() / 1000) - TIME_BEGIN) / 4000;
         User user = hostHolder.getUser();
         article.setCreateTime(now);
         article.setCommentCount(0);
-        article.setTop(false);
+        article.setPriority(0);
         article.setUserId(user.getId());
         article.setScore(score);
         articleMapper.insert(article);

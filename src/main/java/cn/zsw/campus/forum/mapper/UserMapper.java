@@ -4,6 +4,8 @@ import cn.zsw.campus.forum.bean.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface UserMapper {
@@ -22,7 +24,15 @@ public interface UserMapper {
 
     User selectByUniversityIdAndAccount(Integer universityId, String account);
 
+
+    List<User> selectAllUser();
+
+    List<User> selectUserByKeyword(String keyword);
+
+
     int updateAvatarByUserId(Integer id,String avatar);
+
+    int selectTotalCount();
 }
 
 

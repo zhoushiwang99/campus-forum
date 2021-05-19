@@ -5,10 +5,12 @@ import cn.hutool.captcha.ShearCaptcha;
 import cn.hutool.captcha.generator.MathGenerator;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpStatus;
+import cn.zsw.campus.forum.bean.Admin;
 import cn.zsw.campus.forum.bean.Article;
 import cn.zsw.campus.forum.bean.User;
 import cn.zsw.campus.forum.common.CodeEnum;
 import cn.zsw.campus.forum.common.ReturnData;
+import cn.zsw.campus.forum.mapper.AdminMapper;
 import cn.zsw.campus.forum.mapper.ArticleMapper;
 import cn.zsw.campus.forum.mapper.UserMapper;
 import cn.zsw.campus.forum.service.LoginService;
@@ -57,6 +59,10 @@ public class AccountController {
     @Autowired
     ArticleMapper articleMapper;
 
+    @Autowired
+    AdminMapper adminMapper;
+
+
 
     @PostMapping("/login")
     public ReturnData login(HttpServletRequest request, String account, String password, String universityName, String inputValidateCode) {
@@ -90,6 +96,10 @@ public class AccountController {
         }
 
         Map<String, Object> data = new HashMap<>();
+        Admin admin = adminMapper.selectByAccount(account);
+        if(admin != null) {
+            data.put("admin",admin.getUserRole());
+        }
         data.put("token", token);
         data.put("user", user);
         return ReturnData.success(data);

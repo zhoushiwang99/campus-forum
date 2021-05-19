@@ -86,7 +86,7 @@ public class ArticleController {
 
 
     @GetMapping("/getArticleById")
-    public ReturnData getArticleById(Integer articleId) {
+    public ReturnData getArticleById(@NotNull Integer articleId) {
         Article article = articleMapper.selectByPrimaryKey(articleId);
         article.setScore(article.getScore() + 3);
         articleMapper.updateByPrimaryKeySelective(article);
@@ -127,9 +127,10 @@ public class ArticleController {
     public ReturnData getArticle(Integer categoryId, @RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "5") int pageSize, @RequestParam(defaultValue = "0") int sort) {
         String orderBy = "";
         if (sort == 0) {
-            orderBy = "id desc";
+//            orderBy = "top desc, id desc";
+            orderBy = "priority desc ,id desc";
         } else {
-            orderBy = "id asc";
+            orderBy = "priority desc, id asc";
         }
         PageHelper.startPage(pageNo, pageSize, orderBy);
         List<Article> articleList;

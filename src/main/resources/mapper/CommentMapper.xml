@@ -30,6 +30,9 @@
         from t_comment
         where  article_id = #{articleId,jdbcType=INTEGER}
     </select>
+    <select id="selectTotalCount" resultType="java.lang.Integer">
+        select count(1) from t_comment
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from t_comment

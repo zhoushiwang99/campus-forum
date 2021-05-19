@@ -24,6 +24,8 @@ public interface CommentMapper {
 
     int updateByPrimaryKey(Comment record);
 
+    int selectTotalCount();
+
 }
 
 

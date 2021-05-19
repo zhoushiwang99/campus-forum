@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface ArticleCategoryMapper {
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(ArticleCategory record);
 

@@ -11,7 +11,7 @@
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
-        <result property="top" column="top" jdbcType="TINYINT"/>
+        <result property="priority" column="priority" jdbcType="INTEGER"/>
         <result property="commentCount" column="comment_count" jdbcType="INTEGER"/>
         <result property="score" column="score" jdbcType="INTEGER"/>
     </resultMap>
@@ -19,7 +19,7 @@
     <sql id="Base_Column_List">
         id
         ,title,content,
-        user_id,create_time,category_id,
+        user_id,create_time,category_id,priority,
         comment_count,score
     </sql>
 
@@ -55,6 +55,13 @@
         from t_article
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
+    <select id="selectByKeyWord" resultType="cn.zsw.campus.forum.bean.Article">
+        <bind name="pattern" value="'%' + keyword + '%'"/>
+        select
+        <include refid="Base_Column_List"/>
+        from t_article
+        where title like #{pattern}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete
@@ -66,10 +73,10 @@
         insert into t_article
         ( id, title, content
         , user_id, create_time, category_id
-        , top, comment_count,score)
+        , priority, comment_count,score)
         values ( #{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}
                , #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{categoryId,jdbcType=INTEGER}
-               , #{top,jdbcType=TINYINT}, #{commentCount,jdbcType=INTEGER},#{score,jdbcType=INTEGER})
+               , #{priority,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER},#{score,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.Article"
             useGeneratedKeys="true">
@@ -81,7 +88,7 @@
             <if test="userId != null">userId,</if>
             <if test="createTime != null">createTime,</if>
             <if test="categoryId != null">categoryId,</if>
-            <if test="top != null">top,</if>
+            <if test="priority != null">priority,</if>
             <if test="commentCount != null">commentCount,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -91,7 +98,7 @@
             <if test="userId != null">user_id = #{userId,jdbcType=INTEGER},</if>
             <if test="createTime != null">create_time = #{createTime,jdbcType=TIMESTAMP},</if>
             <if test="categoryId != null">category_id = #{categoryId,jdbcType=INTEGER},</if>
-            <if test="top != null">top = #{top,jdbcType=TINYINT},</if>
+            <if test="priority != null">priority = #{priority,jdbcType=INTEGER},</if>
             <if test="commentCount != null">comment_count = #{commentCount,jdbcType=INTEGER},</if>
         </trim>
     </insert>
@@ -113,8 +120,8 @@
             <if test="categoryId != null">
                 category_id = #{categoryId,jdbcType=INTEGER},
             </if>
-            <if test="top != null">
-                top = #{top,jdbcType=TINYINT},
+            <if test="priority != null">
+                priority = #{priority,jdbcType=INTEGER},
             </if>
             <if test="commentCount != null">
                 comment_count = #{commentCount,jdbcType=INTEGER},
@@ -132,7 +139,7 @@
             user_id       = #{userId,jdbcType=INTEGER},
             create_time   = #{createTime,jdbcType=TIMESTAMP},
             category_id   = #{categoryId,jdbcType=INTEGER},
-            top           = #{top,jdbcType=TINYINT},
+            priority           = #{priority,jdbcType=INTEGER},
             comment_count = #{commentCount,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>

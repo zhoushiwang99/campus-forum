@@ -73,6 +73,7 @@ public class ElasticsearchService {
         if (categoryId == null || categoryId == 0) {
             NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
 //                .withQuery(QueryBuilders.multiMatchQuery(keyword, "title", "content"))
+                    .withSort(SortBuilders.fieldSort("priority").order(SortOrder.DESC))
                     .withSort(SortBuilders.fieldSort("score").order(SortOrder.DESC))
                     .withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
                     //分页

@@ -26,6 +26,9 @@ public interface ArticleMapper {
     List<Article> selectByUserId(Integer userId);
 
 
+    List<Article> selectByKeyWord(String keyword);
+
+
     int updateByPrimaryKeySelective(Article record);
 
     int updateByPrimaryKey(Article record);

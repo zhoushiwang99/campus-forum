@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zsw.campus.forum.mapper.AdminMapper">
+
+    <resultMap id="BaseResultMap" type="cn.zsw.campus.forum.bean.Admin">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="account" column="account" jdbcType="VARCHAR"/>
+        <result property="userRole" column="user_role" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,account,user_role
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByAccount" resultType="cn.zsw.campus.forum.bean.Admin">
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin
+        where account = #{account,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_admin
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.Admin"
+            useGeneratedKeys="true">
+        insert into t_admin
+        (id, account, user_role)
+        values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{userRole,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.zsw.campus.forum.bean.Admin"
+            useGeneratedKeys="true">
+        insert into t_admin
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="account != null">account,</if>
+            <if test="userRole != null">userRole,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">id = #{id,jdbcType=INTEGER},</if>
+            <if test="account != null">account = #{account,jdbcType=VARCHAR},</if>
+            <if test="userRole != null">user_role = #{userRole,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.zsw.campus.forum.bean.Admin">
+        update t_admin
+        <set>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="userRole != null">
+                user_role = #{userRole,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.zsw.campus.forum.bean.Admin">
+        update t_admin
+        set account   = #{account,jdbcType=VARCHAR},
+            user_role = #{userRole,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
