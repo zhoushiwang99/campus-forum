@@ -3,7 +3,9 @@ package cn.zsw.campus.forum.controller.user;
 import cn.zsw.campus.forum.bean.Article;
 import cn.zsw.campus.forum.bean.ArticleCategory;
 import cn.zsw.campus.forum.bean.User;
+import cn.zsw.campus.forum.common.CodeEnum;
 import cn.zsw.campus.forum.common.ReturnData;
+import cn.zsw.campus.forum.exception.BaseException;
 import cn.zsw.campus.forum.mapper.ArticleCategoryMapper;
 import cn.zsw.campus.forum.mapper.ArticleMapper;
 import cn.zsw.campus.forum.mapper.UserMapper;
@@ -11,6 +13,7 @@ import cn.zsw.campus.forum.mapper.elasticsearch.ArticleRepository;
 import cn.zsw.campus.forum.service.ArticleService;
 import cn.zsw.campus.forum.service.ElasticsearchService;
 import cn.zsw.campus.forum.service.ForbiddenService;
+import cn.zsw.campus.forum.util.BadWordUtil;
 import cn.zsw.campus.forum.util.HostHolder;
 import cn.zsw.campus.forum.util.RedisUtil;
 import cn.zsw.campus.forum.vo.ArticleVO;
@@ -54,6 +57,9 @@ public class ArticleController {
 
     @Autowired
     ForbiddenService forbiddenService;
+
+    @Autowired
+    BadWordUtil badWordUtil;
 
     @Autowired
     HostHolder hostHolder;
@@ -114,6 +120,13 @@ public class ArticleController {
     public ReturnData addArticle(Integer categoryId, String title, String content) {
         User user = hostHolder.getUser();
         forbiddenService.isForbidden(user.getId());
+
+        String checkString  = title + content;
+        Set<String> set = BadWordUtil.getBadWord(checkString, 2);
+        if(set.size() != 0) {
+            throw new BaseException(CodeEnum.SENSITIVE_WORD_FORBIDDEN.getCode(), "很抱歉，您发布的内容包含敏感词：" + set);
+        }
+
         Article article = Article.builder().categoryId(categoryId).title(title).content(content).build();
         articleService.publishArticle(article);
         return ReturnData.success();
@@ -123,6 +136,13 @@ public class ArticleController {
     public ReturnData updateArticle(@NotNull Integer articleId, Integer categoryId, String title, String content) {
         User user = hostHolder.getUser();
         forbiddenService.isForbidden(user.getId());
+
+        String checkString  = title + content;
+        Set<String> set = BadWordUtil.getBadWord(checkString, 2);
+        if(set.size() != 0) {
+            throw new BaseException(CodeEnum.SENSITIVE_WORD_FORBIDDEN.getCode(), "很抱歉，您发布的内容包含敏感词：" + set);
+        }
+
         Article article = Article.builder().id(articleId).categoryId(categoryId).title(title).content(content).build();
         articleMapper.updateByPrimaryKeySelective(article);
         return ReturnData.success();

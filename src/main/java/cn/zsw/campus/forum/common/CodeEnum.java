@@ -26,8 +26,9 @@ public enum CodeEnum {
     /**
      * 被禁言
      */
-    FORBIDDEN_USER(10086)
-    ;
+    FORBIDDEN_USER(10086),
+
+    SENSITIVE_WORD_FORBIDDEN(10010);
 
     private Integer code;
 
